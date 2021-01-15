@@ -1,0 +1,22 @@
+
+<div class="example">
+    <div class="toolbar">
+        <div class="toolbar__tabs">
+            <div class="toolbar__tab" [class.toolbar__tab--active]="!activeTab">
+                <a href="" (click)="selectFile(null, $event)">Example</a>
+            </div>
+            <div class="toolbar__tab" *ngFor="let file of items" [class.toolbar__tab--active]="activeTab === file.filename">
+                <a href="" (click)="selectFile(file, $event)">{{ file.filename }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab tab--padded" [class.tab--active]="!activeTab">
+        <ng-content></ng-content>
+    </div>
+    <div *ngFor="let file of items" class="tab tab--code" [class.tab--active]="activeTab === file.filename">
+        <pre><code [highlight]="file.code" [languages]="file.languages || []"></code></pre>
+    </div>
+
+
+</div>

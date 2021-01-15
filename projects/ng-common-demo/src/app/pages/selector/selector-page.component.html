@@ -1,0 +1,57 @@
+<h1>Selector Component</h1>
+
+<h2>Introduction</h2>
+
+<p>The selector is a DropDown component with a few simple goals</p>
+
+<ul>
+    <li>Data bound - Easy to bind to an array or observable source</li>
+    <li>Styleable - Replaceable and customizeable CSS classes for everything</li>
+    <li>Filterable - Let the user search available items</li>
+    <li>Lazy loading - Show X items and load more items if requested</li>
+    <li>Reactive Forms - Works with reactive forms</li>
+    <li>Mobile - should be useable on mobile devices</li>
+    <li>Multi select - use should be able to select multiple items</li>
+</ul>
+
+<h2>Data Bound</h2>
+
+<div style="width: 300px;">
+</div>
+
+<app-example [files]="[{filename: 'a.component.html', code: 'koen'}, {filename: 'a.component.ts', code: 'koen'}]">
+    <dlid-selector>
+        <!-- <div dlidSelectorArrow>
+            AHA!asdas
+        </div> -->
+    </dlid-selector>
+</app-example>
+
+<pre><code [lineNumbers]="true" [highlight]="code" [languages]="['html']"></code></pre>
+<pre><code [lineNumbers]="true" [highlight]="code2" [languages]="['ts']"></code></pre>
+
+<!-- <p>For all my components you use <code>DataSource</code> to bind data.</p>
+<p>Optionally you can also bind it directly to an array of items</p>
+
+<pre><code><![CDATA[
+private data: DataSource<SelectorItem>;
+
+this.data = this.selectorService.bind( options => {
+ // This method is invoked as soon as data is requested by the selector
+ return of([
+  {
+      text: 'Sweden'
+  }
+ ]);
+});
+]]></code></pre>
+
+&lt;dlid-selector [dataSource]="data"&gt;&lt;/dlid-selector&gt;
+ -->
+
+
+
+
+
+
+

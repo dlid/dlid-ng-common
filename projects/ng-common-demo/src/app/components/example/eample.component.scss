@@ -1,0 +1,59 @@
+.example {
+    border: 1px solid #444;
+    min-height: 10em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+.toolbar {
+    background-color: #444;
+    &__tabs {
+        display: flex;
+
+    }
+    &__tab {
+        a {
+            color: #e4e1e1; 
+            display: block;;
+            padding: 6px 16px;
+            text-decoration: none;
+            &:hover {
+                background-color: lighten(#444, 5)
+            }
+        }
+        &--active a {
+            color: #fff;
+            background-color: #615e5e;
+            &:hover {
+                text-decoration: underline;
+                background-color: #615e5e;
+            }
+        }
+        &--active {
+            position: relative;
+            &:after {
+                content: ' ';
+                width: 0; 
+                height: 0; 
+                left: calc(50% - 6px);
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                position: absolute;
+                border-top: 6px solid #615e5e;
+            }
+        }
+    }
+}
+.tab {
+    display: none;
+    &--padded {
+        padding: 20px 10px;
+    }
+    &--code {
+        pre code {
+            padding: 1.2em;
+        }
+    }
+    &--active {
+        display: block;
+    }
+}

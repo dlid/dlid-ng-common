@@ -1,0 +1,24 @@
+header {
+    background-color: #689F38;
+    padding: 14px;
+    h1 {
+        font-weight: 200;
+        color: #fff;
+    }
+}
+
+.wrapper {
+    display: flex;
+    margin-top: 24px;
+
+    nav {
+        height: calc(100% - 30px);
+
+    }
+
+    section {
+        margin-left: 24px;
+        margin-right: 24px;
+        flex: 1;
+    }
+}

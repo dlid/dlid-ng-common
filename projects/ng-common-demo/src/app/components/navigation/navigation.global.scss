@@ -1,0 +1,101 @@
+.navigation {
+    $block: &;
+    background: #252526;
+    color: #C7C5C7;
+
+
+    &__item-text {
+        color: #C7C5C7;
+        text-decoration: none;
+        flex: 1;
+    }
+   
+
+    &__item {
+        display: flex;
+        padding: 3px 2px 3px 0px;
+
+        &--has-children {
+            #{$block}__item-text {
+                color: #73C991;
+                text-decoration: none;
+                flex: 1;
+            }
+        }
+
+        &:hover {
+            background-color: #2A2D2E;
+        }
+        &.active {
+            background-color: #37373D;
+        }
+    }
+
+
+    $block: &;
+    // &[nav-depth='1'] {
+    //     background-color: #f9fff4;
+    // }
+
+    // &__item {
+    //    // border-bottom: 1px solid #aaa;
+    //     display: flex;
+        
+    // }
+
+    
+
+    // &__item--disabled {
+    //     color: #aaa;
+    // }
+
+    // &__item a {
+    //     color: #000;
+    //     text-decoration: none;
+    // }
+
+    // &__item a.active {
+    //     color: orange;
+    // }
+
+    // &[nav-depth='0'] {
+    //     > div > #{$block}__item {
+    //         background-color: #444;
+    //         color: #fff;
+    //         &.active {
+    //             background-color:#689F38;
+    //         }
+    //         a {
+    //             padding: 10px;
+    //             color: #fff;
+    //             &.active {
+    //                 color: #fff;
+    //             }
+    //         }
+    //     }
+    // }
+
+    // &[nav-depth='1'] {
+    //     > div > #{$block}__item {
+
+    //         //background-color: #444;
+    //       //@at-root  color: #fff;
+    //         // &.active {
+    //         //     background-color:#689F38;
+    //         // }
+    //         // a {
+    //         //     padding: 10px;
+    //         //     color: #fff;
+    //         //     &.active {
+    //         //         color: #fff;
+    //         //     }
+    //         // }
+    //     }
+    // }
+
+    // &__item-text {
+    //     flex: 1;
+    //     padding: 2px 4px;
+    // }
+
+}
