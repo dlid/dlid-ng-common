@@ -7,6 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "ng-version": "node ./node_modules/@angular/cli/bin/ng --version",
+    "ng-update": "node ./node_modules/@angular/cli/bin/ng update @angular/core @angular/cli",
     "madge": "node_modules/.bin/madge projects/ng-common/src/public-api.ts --ts-config tsconfig.json --image graph.png",
     "e2e": "ng e2e"
   },
