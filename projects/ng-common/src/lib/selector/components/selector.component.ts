@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EmbeddedViewRef, EventEmitter, forwardRef, Input, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, ɵConsole } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, ElementRef, EmbeddedViewRef, EventEmitter, forwardRef, Input, OnDestroy, Output, TemplateRef, ViewChild, ViewContainerRef, ViewEncapsulation, ɵConsole } from '@angular/core';
 import { SelectorService } from '@dlid/ng-common/src/lib/selector/services/selector.service';
 import { DataSource } from '@dlid/ng-common/src/lib/datasource';
 import { fromEvent, of, Subscription } from 'rxjs';
@@ -6,7 +6,7 @@ import { filter, skip, take } from 'rxjs/operators';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface SelectorData {
-    totalCount?: number;    
+    totalCount?: number;
     items?: SelectorOption[];
 }
 
@@ -15,21 +15,18 @@ interface InternalSelectorOption {
     option: SelectorOption;
 }
 
-
 @Component({
+    encapsulation: ViewEncapsulation.None,
     selector: 'dlid-selector',
     templateUrl: './selector.component.html',
     styleUrls: ['./selector.component.scss'],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DlidSelectorComponent),
-        multi: true, 
+        multi: true,
     }]
 })
 export class DlidSelectorComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
-    onChange = (_: any) => {};
-    onTouched = () => {}; 
-
     source?: DataSource<SelectorData>;
     dataSourceSubscription?: Subscription;
     hasArrowContent = true;
@@ -51,13 +48,15 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
     @ViewChild('button') button?: ElementRef;
     @ViewChild('theWrapper') arrowContent!: ElementRef;
     @Output() changed = new EventEmitter<SelectorOption | SelectorOption[]>();
+    @Input() clearable = true;
     @Input() searchDelay?: number;
     @Input() placeholder?: string;
     @Input() blockClassName = '';
-    @Input() 
+    @Input() displayBlock = false;
+    @Input()
     set dataSource(dataSource: DataSource<SelectorData> | SelectorOption[] | undefined)  {
         this.source?.destroy();
-        
+
         this.dataSourceSubscription?.unsubscribe();
         if (dataSource) {
             if (Array.isArray(dataSource)) {
@@ -79,8 +78,18 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
         console.log(this.source);
     }
 
+    onChange = (_: any) => {};
+    onTouched = () => {};
+
     private triggerChange(): void {
         this.onChange(this.selectedItems.length === 0 ? undefined : this.selectedItems[0]);
+    }
+
+    clearValue(e: Event): void {
+      e.preventDefault();
+      e.stopPropagation();
+      this.selectedItems = [];
+      this.triggerChange();
     }
 
     writeValue(newValue: any): void {
@@ -116,11 +125,11 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
     }
 
     registerOnChange(fn: (_: any) => {}): void {
-        this.onChange = fn; 
+        this.onChange = fn;
     }
-        
+
     registerOnTouched(fn: () => {}): void {
-        this.onTouched = fn; 
+        this.onTouched = fn;
     }
 
     setDisabledState?(isDisabled: boolean): void {
@@ -141,7 +150,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
         item.isActive = true;
     }
 
-    trackByValue(ix: number, option: InternalSelectorOption) {
+    trackByValue(ix: number, option: InternalSelectorOption): any {
         return option.option.value;
     }
 
@@ -182,7 +191,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
         this.query = value;
         this.onSearch(e);
     }
- 
+
     onSearch(e: Event) {
         clearTimeout(this.filterTimer);
         this.filterTimer = setTimeout(() => {
@@ -206,7 +215,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
      * Let the user set SelectorOption[] and we bind it as a data source here
      */
     private bindArray(options: SelectorOption[]): void {
-        // If an array is provided we bind it  
+        // If an array is provided we bind it
         this.source = this.selectorService.bind(request => {
             if (request.query) {
                 const query = request.query.toLowerCase();
@@ -242,18 +251,26 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
         console.log("Event", s, e.type, e.target, e, e.defaultPrevented ? 'defaultPrevented' : 'notPrevented');
         if (prevent) {
             e.preventDefault();
-        }        
+        }
     }
 
     onSelectorKeyDown(e: KeyboardEvent) {
         if (e.key === 'Enter') {
-                        
+
         }
     }
 
     open(e: Event): void {
+
+        if ((e.target as HTMLElement).classList.contains(`${this.blockClassName}__clear`)) {
+          return;
+        }
+
+
+
         e.stopPropagation();
         e.stopImmediatePropagation();
+
 
         let query = '';
 
@@ -261,6 +278,11 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
             switch (e.key) {
                 case 'Tab':
                     return;
+                case 'Delete':
+                  if ( this.clearable) {
+                    this.clearValue(e);
+                  }
+                  return;
             }
             if (e.key.length === 1 && e.key !== ' ') {
                 query = e.key;
@@ -275,7 +297,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
                         this.items[ix].isActive = false;
                     }
                     if (ix < this.items.length - 1) {
-                        this.items[ix+1].isActive = true;
+                        this.items[ix + 1].isActive = true;
                     } else {
                         this.items[0].isActive = true;
                     }
@@ -319,7 +341,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
                 take(1)
                 ).subscribe(ea => this.close(ea));
             }, 50);
-    
+
         // Hide menu when resizing window
         setTimeout( () => {
             this.subResizeEvent = fromEvent<Event>(window, 'resize')
@@ -327,7 +349,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
             take(1)
             ).subscribe(ea => this.close(ea));
             }, 50);
-    
+
         // Hide menu when scrolling in window
         setTimeout( () => {
             this.subScrollEvent = fromEvent<Event>(window, 'scroll')
@@ -339,11 +361,11 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
             let pos = (this.button?.nativeElement as HTMLElement).getBoundingClientRect();
             this.view.rootNodes[0].style.position = 'absolute';
             this.view.rootNodes[0].style.left = pos.left + 'px';
-            this.view.rootNodes[0].style.top = window.scrollY + (pos.top + pos.height - 1) + 'px';
+            this.view.rootNodes[0].style.top = window.pageYOffset  + (pos.top + pos.height - 1) + 'px';
             pos = (this.button?.nativeElement as HTMLElement).getBoundingClientRect();
             this.minPopupWidth = pos.width;
 
-            let finalPosition = (this.view.rootNodes[0] as HTMLElement).getBoundingClientRect();
+            const finalPosition = (this.view.rootNodes[0] as HTMLElement).getBoundingClientRect();
             const maxHeight = Math.floor(window.innerHeight - finalPosition.top);
             this.view.rootNodes[0].style.maxHeight = `${maxHeight - 20}px`;
 

@@ -1,23 +1,49 @@
 
-* {
-    box-sizing: border-box;
-}
+
 .dlid-selector {
+  box-sizing: border-box;
+   * {
+    box-sizing: border-box;
+  }
+
     $block: &;
     position: relative;
     background-color: #fff;
     color: #000;
     border: 1px solid rgb(133, 133, 133);
-    display: flex; 
+    display: flex;
     padding: 0;
     text-align: left;
     align-items: stretch;
+    &--block {
+      width: 100%;
+    }
+
     &:focus {
         outline-color: #09f;
     }
+
     &__value {
         padding: 6px;
+        flex: 1;
     }
+
+    &__clear {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      display: none;
+      background-color: lime;
+      height: 100%;
+      min-width: 24px;
+    }
+
+    &--not-empty:hover {
+      #{ $block }__clear {
+        display: block;
+      }
+    }
+
     &__arrow--fallback {
         width: 28px;
         position: relative;
@@ -47,7 +73,7 @@
     }
 
     &__items {
-        overflow-y: auto; 
+        overflow-y: auto;
     }
 
     &__value-text {

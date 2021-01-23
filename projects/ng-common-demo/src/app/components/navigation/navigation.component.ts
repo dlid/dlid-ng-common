@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
+import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { NavItem, NavItemRoute } from './navigation.types';
 
 interface ExtendedNavItem extends NavItem {
@@ -13,8 +14,12 @@ interface ExtendedNavItem extends NavItem {
 export class NavigationComponent {
 
     navigationItems?: ExtendedNavItem[];
+    icons = {
+      expanded: faChevronDown,
+      collapsed: faChevronRight
+    };
 
-    @Input() 
+    @Input()
     set items(items: NavItem[]) {
         this.navigationItems = items?.map(item => {
             const normalizedItem = item as ExtendedNavItem;

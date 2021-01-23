@@ -1,31 +1,32 @@
 <!-- (keydown)="open($event)"
 (keypress.enter)="stopEvent($event)"
 (keyup.enter)="stopEvent($event)" -->
-<button #button type="text" type="button" class="{{ blockClassName }}" 
+<button #button type="text" type="button" [ngClass]="[blockClassName, selectedItems.length > 0 ? blockClassName + '--not-empty' : blockClassName + '--empty', displayBlock ? blockClassName + '--block' : '']"
     (keydown)="open($event)"
     (mousedown)="open($event)"
     (click)="stopEvent($event)">
-    
-    <div [ngClass]="[blockClassName + '__value', selectedItems.length > 0 ? blockClassName + '__value--not-empty' : blockClassName + '__value--empty' ]">
+
+    <div [ngClass]="[blockClassName + '__value' ]">
         <span *ngIf="selectedItems.length > 0" [ngClass]="[blockClassName + '__value-text']">{{selectedItems[0].text}}</span>
         <span *ngIf="selectedItems.length == 0" [ngClass]="[blockClassName + '__value-text', blockClassName + '__value-text--placeholder']">{{placeholder || '&nbsp;'}}</span>
     </div>
-    
+
     <div #theWrapper [attr.class]="blockClassName + '__arrow ' + blockClassName + '__arrow--custom'">
         <ng-content  select="[dlidSelectorArrow]"></ng-content>
     </div>
     <div *ngIf="!hasArrowContent" [attr.class]="blockClassName + '__arrow ' + blockClassName + '__arrow--fallback'">
         <span>⌄</span>
     </div>
+    <div  [attr.class]="blockClassName + '__clear'" (click)="clearValue($event)" *ngIf="clearable">X</div>
 </button>
 
 <ng-template #popupTemplate>
     <div class="{{ blockClassName }}__popup" [style.minWidth]="minPopupWidth + 'px'" style="max-height: 300px; position:relative; overflow-y: hidden">
         <div class="{{ blockClassName }}__filter">
-            <input type="search" [value]="query" 
+            <input type="search" [value]="query"
             (keydown.enter)="onFilterKeyboardEvent($event)"
-            (keyup)="onFilterKeyboardEvent($event)" 
-            (search)="onSearch($event)" 
+            (keyup)="onFilterKeyboardEvent($event)"
+            (search)="onSearch($event)"
             (mouseup)="onSearch($event)">
         </div>
         <div class="{{ blockClassName }}__items" [style.maxHeight]="decreaseFromPopupArea ? 'calc(100% - ' + decreaseFromPopupArea + 'px)' : null">

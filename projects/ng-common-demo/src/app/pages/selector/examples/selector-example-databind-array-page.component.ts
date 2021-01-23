@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectorOption } from '@dlid/ng-common';
+import { SelectorOption } from '@dlid/ng-common/src/public-api';
 import { ExampleFile } from '../../../components/example/example.component';
 
 @Component({
@@ -9,8 +9,8 @@ import { ExampleFile } from '../../../components/example/example.component';
     <p>The simplest kind of binding using an array.</p>
 
     <app-example [files]="files">
-        <dlid-selector [dataSource]="items" [(ngModel)]="test" placeholder="Please select your favorite cheese"></dlid-selector>
-        {{ test | json }}
+        <dlid-selector [dataSource]="items" [(ngModel)]="selectedItem" placeholder="Please select your favorite cheese"></dlid-selector>
+        {{ selectedItem | json }}
         <button>Submit</button>
     </app-example>
 
@@ -21,7 +21,7 @@ import { ExampleFile } from '../../../components/example/example.component';
         <li><strong>Pass the array</strong> to the <code>[dataSource]</code> @Input of the component</li>
     </ol>
 
- 
+
     <h2>Good to know</h2>
 
     <ul>
@@ -33,8 +33,14 @@ import { ExampleFile } from '../../../components/example/example.component';
 })
 export class SelectorExampleDatabindArrayPageComponent implements OnInit {
     items?: SelectorOption[];
-    test?: SelectorOption;
+    selectedItem?: SelectorOption;
     files: ExampleFile[] = [
+        {
+          filename: 'a.component.html',
+          code: `<dlid-selector [dataSource]="items" [(ngModel)]="selectedItem" placeholder="Please select your favorite cheese"></dlid-selector>
+
+{{ selectedItem | json }}`
+      },
         {
             filename: 'a.component.ts',
             code: `import { Component, OnInit } from '@angular/core';
@@ -47,6 +53,7 @@ export class AComponent implements OnInit {
 
     // Define the variable
     items?: SelectorOption[];
+    selectedItem?: SelectorOption;
 
     ngOnInit(): void {
         // Assign the items
@@ -63,7 +70,7 @@ export class AComponent implements OnInit {
 
     ngOnInit(): void {
         this.items = [
-            
+
             { text: 'Brie', value: 'brie' },
             { text: 'Camembert', value: 'camembert'},
             { text: 'Cheddar', value: 'cheddar'},
@@ -72,8 +79,8 @@ export class AComponent implements OnInit {
             { text: 'Nakenost 2', value: 'nost2'},
             { text: 'Villfarelse', value: 'nostx'},
             { text: 'Realobana', value: 'real'},
-            
-            
+
+
         ]
     }
 

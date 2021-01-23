@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SelectorService } from '@dlid/ng-common';
+
 import { NavItem } from './components/navigation/navigation.types';
 import { contents } from './contents';
 
