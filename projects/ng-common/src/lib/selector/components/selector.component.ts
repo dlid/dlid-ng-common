@@ -48,6 +48,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
     @ViewChild('button') button?: ElementRef;
     @ViewChild('theWrapper') arrowContent!: ElementRef;
     @Output() changed = new EventEmitter<SelectorOption | SelectorOption[]>();
+    @Input() minWidth = 100;
     @Input() clearable = true;
     @Input() searchDelay?: number;
     @Input() placeholder?: string;
@@ -86,6 +87,7 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
     }
 
     clearValue(e: Event): void {
+      console.warn("CLEAR");
       e.preventDefault();
       e.stopPropagation();
       this.selectedItems = [];
@@ -261,6 +263,11 @@ export class DlidSelectorComponent implements ControlValueAccessor, AfterViewIni
     }
 
     open(e: Event): void {
+
+      console.log("src", e.srcElement);
+      console.log("currentTarget", e.currentTarget);
+      console.log("target", e.target);
+      console.log("wine", window.event);
 
         if ((e.target as HTMLElement).classList.contains(`${this.blockClassName}__clear`)) {
           return;

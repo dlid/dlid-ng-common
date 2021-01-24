@@ -1,24 +1,40 @@
 <!-- (keydown)="open($event)"
 (keypress.enter)="stopEvent($event)"
 (keyup.enter)="stopEvent($event)" -->
-<button #button type="text" type="button" [ngClass]="[blockClassName, selectedItems.length > 0 ? blockClassName + '--not-empty' : blockClassName + '--empty', displayBlock ? blockClassName + '--block' : '']"
+<div #button tabindex="0"
+(keydown)="open($event)"
+(keypress.enter)="stopEvent($event)"
+(keyup.enter)="stopEvent($event)"
+[style.minWidth]="minWidth ? minWidth + 'px' : null"
+type="text" type="button" [ngClass]="[blockClassName, selectedItems.length > 0 ? blockClassName + '--not-empty' : blockClassName + '--empty', displayBlock ? blockClassName + '--block' : '']">
+
+  <div  [ngClass]="[blockClassName + '__content']">
+    <div [ngClass]="[blockClassName + '__value' ]"
     (keydown)="open($event)"
     (mousedown)="open($event)"
-    (click)="stopEvent($event)">
 
-    <div [ngClass]="[blockClassName + '__value' ]">
+    (click)="stopEvent($event)">
         <span *ngIf="selectedItems.length > 0" [ngClass]="[blockClassName + '__value-text']">{{selectedItems[0].text}}</span>
         <span *ngIf="selectedItems.length == 0" [ngClass]="[blockClassName + '__value-text', blockClassName + '__value-text--placeholder']">{{placeholder || '&nbsp;'}}</span>
     </div>
 
-    <div #theWrapper [attr.class]="blockClassName + '__arrow ' + blockClassName + '__arrow--custom'">
+    <div #theWrapper [attr.class]="blockClassName + '__arrow ' + blockClassName + '__arrow--custom'" (keydown)="open($event)"
+    (mousedown)="open($event)"
+
+    (click)="stopEvent($event)">
         <ng-content  select="[dlidSelectorArrow]"></ng-content>
     </div>
-    <div *ngIf="!hasArrowContent" [attr.class]="blockClassName + '__arrow ' + blockClassName + '__arrow--fallback'">
-        <span>⌄</span>
+    <div *ngIf="!hasArrowContent" [attr.class]="blockClassName + '__arrow ' + blockClassName + '__arrow--fallback'" (keydown)="open($event)"
+    (mousedown)="open($event)"
+
+    (click)="stopEvent($event)">
+        <span></span>
     </div>
-    <div  [attr.class]="blockClassName + '__clear'" (click)="clearValue($event)" *ngIf="clearable">X</div>
-</button>
+    <div  [attr.class]="blockClassName + '__clear'" (mousedown)="clearValue($event)" *ngIf="clearable">
+      <span></span>
+    </div>
+  </div>
+</div>
 
 <ng-template #popupTemplate>
     <div class="{{ blockClassName }}__popup" [style.minWidth]="minPopupWidth + 'px'" style="max-height: 300px; position:relative; overflow-y: hidden">

@@ -9,7 +9,7 @@ import { ExampleFile } from '../../../components/example/example.component';
     <p>The simplest kind of binding using an array.</p>
 
     <app-example [files]="files">
-        <dlid-selector [dataSource]="items" [(ngModel)]="selectedItem" placeholder="Please select your favorite cheese"></dlid-selector>
+        <dlid-selector [dataSource]="items" [(ngModel)]="selectedItem"  placeholder="Pick your favorite cheese"></dlid-selector>
         {{ selectedItem | json }}
         <button>Submit</button>
     </app-example>
@@ -37,7 +37,7 @@ export class SelectorExampleDatabindArrayPageComponent implements OnInit {
     files: ExampleFile[] = [
         {
           filename: 'a.component.html',
-          code: `<dlid-selector [dataSource]="items" [(ngModel)]="selectedItem" placeholder="Please select your favorite cheese"></dlid-selector>
+          code: `<dlid-selector [dataSource]="items" [(ngModel)]="selectedItem" placeholder="Pick your favorite cheese"></dlid-selector>
 
 {{ selectedItem | json }}`
       },
@@ -78,7 +78,7 @@ export class AComponent implements OnInit {
             { text: 'Rastapopulus', value: 'rastap'},
             { text: 'Nakenost 2', value: 'nost2'},
             { text: 'Villfarelse', value: 'nostx'},
-            { text: 'Realobana', value: 'real'},
+            { text: 'Realobana aqdkioqw jqpkp qokpk opqpk pkwqp wq ', value: 'real'},
 
 
         ]
