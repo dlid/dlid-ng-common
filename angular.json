@@ -1,0 +1,174 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ng-common": {
+      "projectType": "library",
+      "root": "projects/ng-common",
+      "sourceRoot": "projects/ng-common/src",
+      "prefix": "dlid",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ng-common/tsconfig.lib.json",
+            "project": "projects/ng-common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-common/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-common/src/test.ts",
+            "tsConfig": "projects/ng-common/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-common/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-common/tsconfig.lib.json",
+              "projects/ng-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ng-common-demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ng-common-demo",
+      "sourceRoot": "projects/ng-common-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ng-common-demo",
+            "index": "projects/ng-common-demo/src/index.html",
+            "main": "projects/ng-common-demo/src/main.ts",
+            "polyfills": "projects/ng-common-demo/src/polyfills.ts",
+            "tsConfig": "projects/ng-common-demo/tsconfig.app.json",
+            "aot": true,
+            "allowedCommonJsDependencies": [
+              "highlight.js"
+            ],
+            "assets": [
+              "projects/ng-common-demo/src/favicon.ico",
+              "projects/ng-common-demo/src/assets"
+            ],
+            "styles": [
+              "projects/ng-common-demo/src/styles.scss",
+              "node_modules/highlight.js/styles/agate.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ng-common-demo/src/environments/environment.ts",
+                  "with": "projects/ng-common-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ng-common-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-common-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ng-common-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-common-demo/src/test.ts",
+            "polyfills": "projects/ng-common-demo/src/polyfills.ts",
+            "tsConfig": "projects/ng-common-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-common-demo/karma.conf.js",
+            "assets": [
+              "projects/ng-common-demo/src/favicon.ico",
+              "projects/ng-common-demo/src/assets"
+            ],
+            "styles": [
+              "projects/ng-common-demo/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-common-demo/tsconfig.app.json",
+              "projects/ng-common-demo/tsconfig.spec.json",
+              "projects/ng-common-demo/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ng-common-demo/e2e/protractor.conf.js",
+            "devServerTarget": "ng-common-demo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-common-demo:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "cli": {
+    "analytics": "74890450-4874-430d-91ea-60f0c1c0786a"
+  },
+  "defaultProject": "ng-common"
+}

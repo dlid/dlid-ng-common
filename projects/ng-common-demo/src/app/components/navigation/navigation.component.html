@@ -1,0 +1,20 @@
+<div class="navigation" [attr.nav-depth]="depth">
+
+    <div *ngFor="let item of navigationItems">
+        <a  #exactRoute="routerLinkActive" routerLinkActive="dummyvalue" [routerLinkActiveOptions]="{ exact: true }" class="hide" [routerLink]="item.normalizedRoute.path"></a>
+
+        <div class="navigation__item"
+            [class.navigation__item--has-children]="item.children"
+            [class.navigation__item--no-children]="!item.children"
+            [routerLink]="item.normalizedRoute.path"
+            [style.paddingLeft]=" ((depth + 1) * 20) + 'px'" #rla="routerLinkActive" routerLinkActive="active" [class.active--exact]="exactRoute.isActive" [routerLinkActiveOptions]="item.normalizedRoute.routerLinkOptions ? item.normalizedRoute.routerLinkOptions : { exact: false}">
+
+            <span class="navigation__item-text navigation__item-text--disabled" *ngIf="item.disabled">{{ item.title }} </span>
+            <a class="navigation__item-text" *ngIf="!item.disabled" [routerLink]="item.normalizedRoute.path">{{ item.title }}</a>
+            <div class="navigation__item-icon"><fa-icon [icon]=" item.children && rla.isActive ? icons.expanded : icons.collapsed "></fa-icon></div>
+        </div>
+        <app-navigation *ngIf="item.children && rla.isActive" [items]="item.children" [depth]="depth + 1"></app-navigation>
+
+    </div>
+
+</div>
