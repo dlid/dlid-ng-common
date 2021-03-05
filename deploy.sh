@@ -22,7 +22,7 @@ echo " "
 
 
 echo "[START] Build Demo app"
-cd "$workingdir/ng-common-demo"
+cd "$workingdir"
 npm ci
 ret=$?
 if [ $ret -ne 0 ]; then
